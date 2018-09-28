@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ITU Hermes</string>
+    <!-- Strings related to login -->
+    <string name="password_prompt">Password</string>
+    <string name="email_prompt">Email</string>
+    <string name="action_login">Login</string>
+    <string name="action_signup">Sign up</string>
+    <string name="error_invalid_email">Invalid email address.</string>
+    <string name="error_invalid_password">Passwords length should be 8–20.</string>
+    <string name="error_incorrect_password">Incorrect password.</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_database">Database error.</string>
+    <string name="error_no_user">User does not exist.</string>
+    <string name="unidentified_error">Something went wrong.</string>
+</resources>
