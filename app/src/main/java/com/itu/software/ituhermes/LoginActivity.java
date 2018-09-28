@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.regex.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int signup_request_code = 2;
@@ -79,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             ePassword.setError(getString(R.string.error_field_required));
             ePassword.requestFocus();
             abort = true;
-        } else if (!FormValidator.validateEmail(password)) {
+        } else if (!FormValidator.validatePassword(password)) {
             ePassword.setError(getString(R.string.error_invalid_password));
             ePassword.requestFocus();
             abort = true;

@@ -1,6 +1,6 @@
 package com.itu.software.ituhermes.connection;
 
-import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +11,7 @@ public class FormValidator {
     }
 
     public static boolean validatePassword(String password) {
-        return validator("\\w{8,20}", password);
+        return validator("[a-zA-Z\\d@$!%*#?&]{8,20}", password);
     }
 
     public static boolean validateName(String name) {
@@ -21,6 +21,7 @@ public class FormValidator {
     private static boolean validator(String regex, String toMatch) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(toMatch);
+        Log.d("", "validator: " + matcher.toString());
         return matcher.matches();
     }
 }

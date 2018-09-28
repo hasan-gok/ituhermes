@@ -6,7 +6,7 @@
     <string name="action_login">Login</string>
     <string name="action_signup">Sign up</string>
     <string name="error_invalid_email">Invalid email address.</string>
-    <string name="error_invalid_password">Passwords length should be 8–20.</string>
+    <string name="error_invalid_password">8–20 characters. (@$!%*#?&amp;)</string>
     <string name="error_incorrect_password">Incorrect password.</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_database">Database error.</string>
