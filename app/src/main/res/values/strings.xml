@@ -12,4 +12,12 @@
     <string name="error_database">Database error.</string>
     <string name="error_no_user">User does not exist.</string>
     <string name="unidentified_error">Something went wrong.</string>
+    <string name="login_success">Logged in successfully.</string>
+    <string name="passval_prompt">Re-enter password</string>
+    <string name="signup_lastname">Lastname</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_success">Signed up successfully.</string>
+    <string name="error_user_already_defined">User already exists.</string>
+    <string name="error_invalid_chars">Invalid characters.</string>
+    <string name="error_password_mismatch">Passwords do not match.</string>
 </resources>
