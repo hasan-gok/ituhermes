@@ -14,6 +14,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,7 +23,16 @@
             android:label="Login" />
         <activity
             android:name=".SignupActivity"
-            android:label="Sign Up" />
+            android:label="Sign Up"
+            android:parentActivityName="com.itu.software.ituhermes.LoginActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profile"
+            android:parentActivityName="com.itu.software.ituhermes.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

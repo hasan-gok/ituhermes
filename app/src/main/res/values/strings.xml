@@ -20,4 +20,9 @@
     <string name="error_user_already_defined">User already exists.</string>
     <string name="error_invalid_chars">Invalid characters.</string>
     <string name="error_password_mismatch">Passwords do not match.</string>
+    <string name="available_tags">Available tags</string>
+    <string name="add">Add</string>
+    <string name="followed_tags">Currently followed tags</string>
+    <string name="delete">Delete</string>
+    <string name="profile">Profile</string>
 </resources>

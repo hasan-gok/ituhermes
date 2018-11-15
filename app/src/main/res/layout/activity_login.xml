@@ -6,7 +6,6 @@
     android:orientation="horizontal"
     tools:context=".LoginActivity"
     android:id="@+id/login_layout">
-
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"

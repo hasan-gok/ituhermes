@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.FormValidator;
 import com.itu.software.ituhermes.connection.HTTPClient;
 
@@ -30,10 +31,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button bSignUp;
     EditText eEmail;
     EditText ePassword;
-    View vLogin;
     ProgressBar progressBar;
     String email;
     String password;
+    View vLogin;
     private UserLoginTask userLoginTask = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Snackbar.make(activity.vLogin, R.string.unidentified_error, Snackbar.LENGTH_SHORT).show();
                     break;
                 case 0:
+                    User.getCurrentUser().setEmail(email);
                     Intent resultIntent = new Intent();
                     activity.setResult(Activity.RESULT_OK, resultIntent);
                     activity.finish();

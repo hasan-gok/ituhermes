@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.FormValidator;
 import com.itu.software.ituhermes.connection.HTTPClient;
 
@@ -25,14 +26,14 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
-    EditText eName;
-    EditText eLastName;
-    EditText eEmail;
-    EditText ePassword;
-    EditText ePasswordVal;
-    Button bSignup;
-    ProgressBar progressBar;
-    View vSignupForm;
+    private EditText eName;
+    private EditText eLastName;
+    private EditText eEmail;
+    private EditText ePassword;
+    private EditText ePasswordVal;
+    private Button bSignup;
+    protected ProgressBar progressBar;
+    private View vSignupForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
