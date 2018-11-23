@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_gravity="center"
     android:layout_margin="10dp">
 
     <TextView
@@ -10,17 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="24dp"
+        android:gravity="center"
+        android:textSize="10pt"
         android:textStyle="bold"
         android:text="@string/available_tags" />
 
     <ImageButton
         android:id="@+id/delete_button"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
         android:contentDescription="@string/delete"
-        android:background="@drawable/deletebutton" />
+        android:background="@drawable/ic_remove_circle" />
 
 </LinearLayout>

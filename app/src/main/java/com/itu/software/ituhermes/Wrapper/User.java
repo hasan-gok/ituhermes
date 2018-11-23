@@ -1,11 +1,11 @@
 package com.itu.software.ituhermes.Wrapper;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 public class User {
     private String email;
+    private String name;
+    private String lastName;
     private ArrayList<String> topicTags;
     public static User currentUser = null;
 
@@ -46,5 +46,19 @@ public class User {
         return index;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

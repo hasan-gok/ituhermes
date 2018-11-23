@@ -6,14 +6,33 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HTTPClient {
-    private static final String baseUrl = "https://ituhermes-server.herokuapp.com";
+    //    private static final String baseUrl = "https://ituhermes-server.herokuapp.com";
+    private static final String baseUrl = "http://10.0.2.2:5000";
 
+    private static int write(HttpURLConnection connection, JSONObject body) {
+        if (body != null) {
+            connection.setDoOutput(true);
+            connection.setChunkedStreamingMode(0);
+            try {
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+                out.write(body.toString());
+                Log.d("TAG", "write: " + body.toString());
+                out.flush();
+                out.close();
+                return 0;
+            } catch (IOException e) {
+                return -1;
+            }
+        }
+        return -1;
+    }
     public static JSONObject post(String path, JSONObject body) {
         JSONObject response = null;
         try {
@@ -21,14 +40,7 @@ public class HTTPClient {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("content-type", "application/json; charset=utf-8");
-            if (body != null) {
-                connection.setDoOutput(true);
-                connection.setChunkedStreamingMode(0);
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-                out.write(body.toString());
-                out.flush();
-                out.close();
-            }
+            write(connection, body);
             if (connection.getResponseCode() == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
@@ -67,13 +79,8 @@ public class HTTPClient {
                     builder.append(inputLine);
                 }
                 in.close();
-                if (builder.toString().equals("")) {
-                    response = new JSONObject();
-                    response.put("code", 0);
-                } else {
-                    response = new JSONObject(builder.toString());
-                    response.put("code", 0);
-                }
+                response = new JSONObject(builder.toString());
+                response.put("code", 0);
             } else {
                 response = new JSONObject();
                 response.put("code", -1);
@@ -101,12 +108,49 @@ public class HTTPClient {
         return code;
     }
 
+    public static int delete(String path, JSONObject body) {
+        int code = -1;
+        try {
+            URL url = new URL(baseUrl + path);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
+            write(connection, body);
+            if (connection.getResponseCode() == 200) {
+                code = 0;
+            }
+            connection.disconnect();
+        } catch (Exception e) {
+            Log.e("HTTPClient", e.getMessage());
+        }
+        return code;
+    }
+
+    public static int put(String path, JSONObject body) {
+        int code = -1;
+        try {
+            URL url = new URL(baseUrl + path);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
+            write(connection, body);
+            if (connection.getResponseCode() == 200) {
+                code = 0;
+            }
+            connection.disconnect();
+        } catch (Exception e) {
+            Log.e("HTTPClient", e.getMessage());
+        }
+        return code;
+    }
+
     public static int put(String path) {
         int code = -1;
         try {
             URL url = new URL(baseUrl + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
+            connection.setRequestProperty("content-type", "application/json; charset=utf-8");
             if (connection.getResponseCode() == 200) {
                 code = 0;
             }

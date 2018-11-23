@@ -2,36 +2,27 @@ package com.itu.software.ituhermes;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
-import android.support.annotation.LayoutRes;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.itu.software.ituhermes.Tasks.AddTag;
+import com.itu.software.ituhermes.Tasks.DeleteTag;
 import com.itu.software.ituhermes.Tasks.GetProfileData;
 import com.itu.software.ituhermes.Tasks.GetTags;
-import com.itu.software.ituhermes.Tasks.DeleteTag;
 import com.itu.software.ituhermes.Wrapper.User;
 
 import java.util.ArrayList;
@@ -70,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
         progressBar = findViewById(R.id.profile_progress);
         followedTags = findViewById(R.id.followed_tags);
         followedTags = findViewById(R.id.followed_tags);
-        followedTags.setHasFixedSize(true);
         followedTags.setLayoutManager(new LinearLayoutManager(this));
         followedTags.setAdapter(new TopicTagAdapter());
         GetProfileData<ProfileActivity> task = new GetProfileData<>(this);
@@ -96,10 +86,10 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
     @Override
     public void callbackUI(Code code) {
         switch (code) {
-            case DATA_FAIL:
+            case FAIL:
                 Snackbar.make(profileForm, R.string.unidentified_error, Snackbar.LENGTH_SHORT).show();
                 break;
-            case DATA_SUCCESS:
+            case SUCCESS:
                 followedTags.getAdapter().notifyDataSetChanged();
                 GetTags<ProfileActivity> task = new GetTags<>(this);
                 task.execute();

@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,15 +25,17 @@
         <activity
             android:name=".SignupActivity"
             android:label="Sign Up"
-            android:parentActivityName="com.itu.software.ituhermes.LoginActivity" />
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".ProfileActivity"
             android:label="Profile"
-            android:parentActivityName="com.itu.software.ituhermes.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".PostPagerActivity"
+            android:label="Posts"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

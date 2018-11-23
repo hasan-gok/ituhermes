@@ -12,8 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
-
 public class GetProfileData<T extends IUICallback> extends AsyncTask<Void, Void, Integer> {
     private T activityReference;
 
@@ -25,9 +23,9 @@ public class GetProfileData<T extends IUICallback> extends AsyncTask<Void, Void,
     protected void onPostExecute(Integer returnCode) {
         super.onPostExecute(returnCode);
         if (returnCode == 0) {
-            activityReference.callbackUI(Code.DATA_SUCCESS);
+            activityReference.callbackUI(Code.SUCCESS);
         } else {
-            activityReference.callbackUI(Code.DATA_FAIL);
+            activityReference.callbackUI(Code.FAIL);
         }
 
     }
