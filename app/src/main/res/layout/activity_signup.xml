@@ -4,23 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignupActivity">
+    tools:context=".SignupActivity"
+    android:background="@color/colorPrimaryDark">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:id="@+id/signup_progress" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/signup_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="@string/action_signup"
+            android:textColor="@color/colorLight"
+            android:textSize="22sp"
+            android:textStyle="normal" />
+    </android.support.v7.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="16dp"
         android:paddingTop="32dp"
         android:paddingEnd="16dp"
-        android:id="@+id/signup_form">
+        android:id="@+id/signup_form"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,20 +39,23 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:theme="@style/TextInputLayoutTheme">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/signup_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/signup_name"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:theme="@style/TextInputLayoutTheme" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:theme="@style/TextInputLayoutTheme">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/signup_lname"
@@ -56,7 +68,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:theme="@style/TextInputLayoutTheme">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/signup_email"
@@ -69,7 +82,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:theme="@style/TextInputLayoutTheme">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/signup_pass"
@@ -82,7 +96,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:theme="@style/TextInputLayoutTheme">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/signup_pass_val"

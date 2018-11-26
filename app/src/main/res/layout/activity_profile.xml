@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,18 +9,17 @@
         android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:theme="@style/ToolbarTheme">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:id="@+id/profile_progress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="@string/profile"
+            android:textColor="@color/colorLight"
+            android:textSize="22sp"
+            android:textStyle="normal" />
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/profile_form"
@@ -48,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:padding="5dp"
                     android:text="@string/email_prompt"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/colorAccent2" />
 
                 <TextView
                     android:id="@+id/email_text"
@@ -56,6 +54,29 @@
                     android:layout_height="match_parent"
                     android:padding="5dp"
                     android:text="@string/error_invalid_email"
+                    android:textColor="@android:color/darker_gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:text="@string/signup_name"
+                    android:textColor="@color/colorAccent2" />
+
+                <TextView
+                    android:id="@+id/name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:text="@string/error_invalid_chars"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
@@ -71,8 +92,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
-                    android:padding="5dp"
-                    android:text="@string/available_tags" />
+                    android:text="@string/available_tags"
+                    android:textColor="@color/colorAccent2" />
 
                 <Spinner
                     android:id="@+id/tag_names"
@@ -84,13 +105,13 @@
 
                 <Button
                     android:id="@+id/add_button"
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="5dp"
+                    android:backgroundTint="@color/colorAccent2"
                     android:text="@string/add"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/colorLight" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,15 +122,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="@string/followed_tags"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/colorAccent2" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/followed_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:layout_margin="16dp">
+                    android:padding="8dp">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>

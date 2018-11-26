@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/add_topic"
+        android:textColor="@color/white"
+        android:textSize="10pt" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:theme="@style/TextInputLayoutTheme">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/topic_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:hint="@string/title"
+            android:maxLength="40"
+            android:textSize="10pt" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/available_tags"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:textColor="@color/colorLight" />
+
+        <Spinner
+            android:id="@+id/tag_spinner"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel_add_topic"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textColor="@color/colorAccent2" />
+
+        <Button
+            android:id="@+id/add_topic_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            style="?android:attr/borderlessButtonStyle"
+
+            android:text="@string/add"
+            android:textColor="@color/colorLight" />
+    </LinearLayout>
+
+</LinearLayout>

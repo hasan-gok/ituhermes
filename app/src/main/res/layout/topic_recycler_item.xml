@@ -23,22 +23,23 @@
             android:layout_marginStart="16dp"
             android:gravity="center_vertical|start"
             android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorLight"
             android:textSize="8pt" />
 
         <TextView
             android:id="@+id/topic_post_count_text"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_circle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorAccent2"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@color/colorPrimaryAlt" />
 </LinearLayout>

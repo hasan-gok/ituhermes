@@ -12,7 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
+
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
+        <!-- android:resource="@android:drawable/ic_not" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@color/colorAccent" /> -->
+        <service android:name=".FirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,21 +36,26 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Login" />
+            android:label="" />
         <activity
             android:name=".SignupActivity"
-            android:label="Sign Up"
+            android:label=""
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:label=""
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".PostPagerActivity"
-            android:label="Posts"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".MainActivity"></activity>
+            android:label=""
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".NotificationActivity"
+            android:label="">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

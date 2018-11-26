@@ -7,28 +7,34 @@ import com.itu.software.ituhermes.IUICallback;
 import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.HTTPClient;
 
-public class AddTag<T extends IUICallback> extends AsyncTask<Void, Void, Integer> {
-    private T activityReference;
+public class AddTag extends AsyncTask<Void, Void, Integer> {
+    private IUICallback callback;
     private String tag;
 
-    public AddTag(String tag, T activity) {
+    public AddTag(IUICallback callback, String tag) {
         this.tag = tag;
-        this.activityReference = activity;
+        this.callback = callback;
     }
 
     @Override
     protected void onPostExecute(Integer returnCode) {
         super.onPostExecute(returnCode);
         if (returnCode == 0) {
-            activityReference.callbackUI(Code.ADD_TAG);
+            callback.callbackUI(Code.ADD_TAG);
         } else {
-            activityReference.callbackUI(Code.DATA_FAIL);
+            callback.callbackUI(Code.DATA_FAIL);
         }
     }
 
     @Override
     protected Integer doInBackground(Void... voids) {
-        String path = String.format("/user/%s/tag/%s", User.getCurrentUser().getEmail(), tag);
-        return HTTPClient.put(path);
+        int returnCode = -1;
+        try {
+            String path = String.format("user/tag/%s?token=%s", tag, User.getCurrentUser().getToken());
+            returnCode = HTTPClient.put(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnCode;
     }
 }

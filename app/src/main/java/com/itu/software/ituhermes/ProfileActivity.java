@@ -1,10 +1,10 @@
 package com.itu.software.ituhermes;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,12 +31,13 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
     Spinner tagNames;
     Button addButton;
     TextView emailText;
+    TextView nameText;
     RecyclerView followedTags;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog;
     Toolbar toolbar;
     private String tagToAdd;
     private String tagToDelete;
-
+    private GetProfileData task;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,32 +52,42 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
             @Override
             public void onClick(View v) {
                 tagToAdd = tagNames.getSelectedItem().toString();
-                AddTag<ProfileActivity> task = new AddTag<>(tagToAdd, ProfileActivity.this);
+                AddTag task = new AddTag(ProfileActivity.this, tagToAdd);
                 task.execute();
             }
         });
         emailText = findViewById(R.id.email_text);
-        emailText.setText(User.getCurrentUser().getEmail());
-        progressBar = findViewById(R.id.profile_progress);
+        nameText = findViewById(R.id.name_text);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         followedTags = findViewById(R.id.followed_tags);
         followedTags = findViewById(R.id.followed_tags);
         followedTags.setLayoutManager(new LinearLayoutManager(this));
         followedTags.setAdapter(new TopicTagAdapter());
-        GetProfileData<ProfileActivity> task = new GetProfileData<>(this);
+        progressDialog.show();
+        task = new GetProfileData(this);
         task.execute();
-        showProgressBar(true);
     }
 
     @Override
     public void callbackUI(Code code, ArrayList<String> data) {
-        showProgressBar(false);
+        progressDialog.dismiss();
         switch (code) {
             case DATA_FAIL:
-                Snackbar.make(profileForm, R.string.unidentified_error, Snackbar.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.unidentified_error);
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 break;
             case DATA_SUCCESS:
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout, data);
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                 tagNames.setAdapter(adapter);
                 break;
         }
@@ -85,51 +95,46 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
 
     @Override
     public void callbackUI(Code code) {
+        GetTags taskG = new GetTags(this, true);
         switch (code) {
             case FAIL:
-                Snackbar.make(profileForm, R.string.unidentified_error, Snackbar.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.unidentified_error);
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
                 break;
             case SUCCESS:
-                followedTags.getAdapter().notifyDataSetChanged();
-                GetTags<ProfileActivity> task = new GetTags<>(this);
-                task.execute();
+                emailText.setText(User.getCurrentUser().getEmail());
+                nameText.setText(String.format("%s %s", User.getCurrentUser().getName(), User.getCurrentUser().getLastName()));
+                progressDialog.show();
+                taskG.execute();
                 break;
             case ADD_TAG:
                 User.getCurrentUser().addTopicTag(tagToAdd);
                 followedTags.getAdapter().notifyDataSetChanged();
+                progressDialog.show();
+                taskG.execute();
                 break;
             case DEL_TAG:
                 int index = User.getCurrentUser().deleteTopicTag(tagToDelete);
                 followedTags.getAdapter().notifyItemRemoved(index);
+                progressDialog.show();
+                taskG.execute();
                 break;
         }
     }
-
-    private void showProgressBar(final boolean show) {
-        profileForm.setVisibility(show ? View.GONE : View.VISIBLE);
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        profileForm.animate().setDuration(shortAnimTime)
-                .alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                profileForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        progressBar.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
     protected class TopicTagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String topicTag;
         TextView topicTagText;
         ImageButton removeButton;
 
-        public TopicTagViewHolder(@NonNull View itemView) {
+        TopicTagViewHolder(@NonNull View itemView) {
             super(itemView);
             this.topicTagText = itemView.findViewById(R.id.topic_tag_text);
             this.removeButton = itemView.findViewById(R.id.delete_button);
@@ -139,11 +144,11 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
         @Override
         public void onClick(View v) {
             tagToDelete = topicTagText.getText().toString();
-            DeleteTag<ProfileActivity> task = new DeleteTag<>(tagToDelete, (ProfileActivity) v.getContext());
+            DeleteTag task = new DeleteTag(ProfileActivity.this, tagToDelete);
             task.execute();
         }
 
-        public void setTopicTag(String topicTag) {
+        void setTopicTag(String topicTag) {
             this.topicTag = topicTag;
             topicTagText.setText(topicTag);
         }

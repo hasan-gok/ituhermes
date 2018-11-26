@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_post"
+        android:title="@string/posts"
+        android:icon="@drawable/post_icon"
+        android:checked="true"></item>
+    <item
+        android:id="@+id/menu_recommendation"
+        android:title="@string/recommendations"
+        android:icon="@drawable/ic_whatshot"></item>
+</menu>

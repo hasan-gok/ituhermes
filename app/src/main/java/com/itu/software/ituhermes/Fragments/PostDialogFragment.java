@@ -34,21 +34,19 @@ public class PostDialogFragment extends DialogFragment implements View.OnClickLi
 
     public void setCallback(IUICallback callback) {
         {
-            Log.d("", "setCallback: " + callback.toString());
             this.callback = callback;
         }
     }
 
     @Override
     public void callbackUI(Code code) {
+        progressDialog.dismiss();
         switch (code) {
             case POST_SUCCESS: {
-                progressDialog.dismiss();
                 getDialog().dismiss();
                 callback.callbackUI(Code.POST_SUCCESS);
             }
             case POST_FAIL: {
-                progressDialog.dismiss();
                 inputEditText.setError(getString(R.string.post_fail));
             }
         }
@@ -64,7 +62,7 @@ public class PostDialogFragment extends DialogFragment implements View.OnClickLi
             case R.id.send_post_button: {
                 String text = inputEditText.getText().toString();
                 Topic topic = (Topic) getArguments().getSerializable(PostPagerActivity.TOPIC_KEY);
-                SendPost<PostDialogFragment> task = new SendPost<>(this, topic.getTopicId(), text);
+                SendPost task = new SendPost(this, topic.getTopicId(), text);
                 progressDialog.setMessage("Sending post");
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCancelable(false);
@@ -94,6 +92,7 @@ public class PostDialogFragment extends DialogFragment implements View.OnClickLi
             sendButton.setOnClickListener(this);
             cancelButton.setOnClickListener(this);
             builder.setView(parentView);
+            builder.setCancelable(false);
         } catch (NullPointerException e) {
             Log.d("", "onCreateDialog: " + e.getMessage());
         }

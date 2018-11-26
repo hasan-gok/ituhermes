@@ -1,85 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".LoginActivity"
-    android:id="@+id/login_layout">
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
 
-    <ScrollView
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"
+        android:theme="@style/ToolbarTheme">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="@string/action_login"
+            android:textColor="@color/colorLight"
+            android:textSize="22sp"
+            android:textStyle="normal" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:theme="@style/TextInputLayoutTheme">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/email_layout"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/login_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp">
+                android:ems="10"
+                android:hint="@string/email_prompt"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorLight"
+                android:textColorHint="@color/colorLight" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/login_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/email_prompt"
-                    android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/pass_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:theme="@style/TextInputLayoutTheme">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/pass_layout"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp">
+                android:ems="10"
+                android:hint="@string/password_prompt"
+                android:inputType="textPassword"
+                android:textColor="@color/colorLight"
+                android:textColorHint="@color/colorLight"
+                android:theme="@style/TextInputLayoutTheme" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/login_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/password_prompt"
-                    android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/action_login"
+            android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:backgroundTintMode="multiply"
-                android:text="@string/action_login"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/sign_up_button"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:text="@string/action_signup"
-                android:textColor="@color/colorAccent" />
-        </LinearLayout>
-    </ScrollView>
-
-</android.support.design.widget.CoordinatorLayout>
+        <Button
+            android:id="@+id/sign_up_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:text="@string/action_signup"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

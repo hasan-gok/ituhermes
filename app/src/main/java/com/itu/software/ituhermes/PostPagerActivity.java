@@ -1,9 +1,5 @@
 package com.itu.software.ituhermes;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,11 +10,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.itu.software.ituhermes.Fragments.PostDialogFragment;
 import com.itu.software.ituhermes.Fragments.PostPageFragment;
@@ -33,7 +29,8 @@ public class PostPagerActivity extends AppCompatActivity implements IUICallback<
     PostPagerAdapter adapter;
     FloatingActionButton floatingActionButton;
     Toolbar toolbar;
-    Button subscribeButton;
+    TextView toolbarTitle;
+    SwitchCompat subscribeSwitch;
     Topic topic;
     int pageCount;
 
@@ -46,21 +43,23 @@ public class PostPagerActivity extends AppCompatActivity implements IUICallback<
         topic = (Topic) getIntent().getExtras().getSerializable(TOPIC_KEY);
         pageCount = 1;
         toolbar = findViewById(R.id.post_toolbar);
-        toolbar.setTitle(topic.getTitle());
-        subscribeButton = toolbar.findViewById(R.id.subscribe_button);
-        subscribeButton.setOnClickListener(new View.OnClickListener() {
+        toolbarTitle = findViewById(R.id.posts_toolbar_text);
+        toolbarTitle.setText(topic.getTitle());
+        subscribeSwitch = toolbar.findViewById(R.id.subscribe_switch);
+        subscribeSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SubscribeTask<PostPagerActivity> task = new SubscribeTask<>(PostPagerActivity.this, topic);
+                v.setClickable(false);
+                SubscribeTask task = new SubscribeTask(PostPagerActivity.this, topic);
                 task.execute();
             }
         });
         if (topic.isSubscribing()) {
-            subscribeButton.setText(R.string.unsubscribe);
-            subscribeButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            subscribeSwitch.setText(R.string.subscribing);
+            subscribeSwitch.setChecked(true);
         } else {
-            subscribeButton.setText(R.string.subscribe);
-            subscribeButton.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary_dark));
+            subscribeSwitch.setText(R.string.notsubscribing);
+            subscribeSwitch.setChecked(false);
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -131,41 +130,23 @@ public class PostPagerActivity extends AppCompatActivity implements IUICallback<
     }
 
     private void switchSubscription() {
-        subscribeButton.setClickable(false);
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         if (!topic.isSubscribing()) {
-            final ObjectAnimator animator = ObjectAnimator.ofObject(subscribeButton, "backgroundColor", new ArgbEvaluator(), getResources().getColor(R.color.design_default_color_primary_dark), getResources().getColor(R.color.colorAccent));
-            animator.setDuration(shortAnimTime);
-            Log.d(TAG, "switchSubscription: " + animator.getPropertyName());
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    subscribeButton.setText(R.string.unsubscribe);
-                    topic.setSubscribing(true);
-                    subscribeButton.setClickable(true);
-                }
-            });
-            animator.start();
+            subscribeSwitch.setText(R.string.subscribing);
+            subscribeSwitch.setChecked(true);
+            topic.setSubscribing(true);
         } else {
-            final ObjectAnimator animator = ObjectAnimator.ofObject(subscribeButton, "backgroundColor", new ArgbEvaluator(), getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.design_default_color_primary_dark));
-            animator.setDuration(shortAnimTime);
-            Log.d(TAG, "switchSubscription: " + animator.getPropertyName());
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    subscribeButton.setText(R.string.subscribe);
-                    topic.setSubscribing(false);
-                    subscribeButton.setClickable(true);
-                }
-            });
-            animator.start();
+            subscribeSwitch.setText(R.string.notsubscribing);
+            subscribeSwitch.setChecked(false);
+            topic.setSubscribing(false);
         }
+        subscribeSwitch.setClickable(true);
+
     }
 
     private class PostPagerAdapter extends FragmentStatePagerAdapter {
         private PostPageFragment currentFragment;
 
-        public PostPagerAdapter(FragmentManager fm) {
+        PostPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -193,7 +174,7 @@ public class PostPagerActivity extends AppCompatActivity implements IUICallback<
             super.setPrimaryItem(container, position, object);
         }
 
-        public void updateCurrentFragment() {
+        void updateCurrentFragment() {
             currentFragment.updateItems();
         }
 

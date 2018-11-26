@@ -9,15 +9,12 @@ import com.itu.software.ituhermes.Wrapper.Topic;
 import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.HTTPClient;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class SubscribeTask<T extends IUICallback> extends AsyncTask<Void, Void, Integer> {
+public class SubscribeTask extends AsyncTask<Void, Void, Integer> {
     private static final String TAG = "SubscribeTask";
-    T callback;
-    Topic topic;
+    private IUICallback callback;
+    private Topic topic;
 
-    public SubscribeTask(T callback, Topic topic) {
+    public SubscribeTask(IUICallback callback, Topic topic) {
         this.callback = callback;
         this.topic = topic;
     }
@@ -35,17 +32,14 @@ public class SubscribeTask<T extends IUICallback> extends AsyncTask<Void, Void, 
     @Override
     protected Integer doInBackground(Void... voids) {
         int returnCode = -1;
-        String path;
-        path = String.format("/topic/%d/subscribe", topic.getTopicId());
         try {
-            JSONObject body = new JSONObject();
-            body.put("email", User.getCurrentUser().getEmail());
+            String path = String.format("topic/%d/subscribe?token=%s", topic.getTopicId(), User.getCurrentUser().getToken());
             if (!topic.isSubscribing()) {
-                returnCode = HTTPClient.put(path, body);
+                returnCode = HTTPClient.put(path);
             } else {
-                returnCode = HTTPClient.delete(path, body);
+                returnCode = HTTPClient.delete(path);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.d(TAG, "doInBackground: " + e.getMessage());
         }
         return returnCode;

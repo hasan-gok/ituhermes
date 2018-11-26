@@ -7,28 +7,40 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/post_toolbar"
+        style="@style/ToolbarTheme"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <Button
-            android:id="@+id/subscribe_button"
-            android:layout_width="55pt"
-            android:layout_height="40dp"
+        <TextView
+            android:id="@+id/posts_toolbar_text"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorLight"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/subscribe_switch"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:gravity="center"
-            android:layout_marginEnd="5dp"
-            android:text="@string/unsubscribe"
-            android:textColor="@color/white" />
+            android:layout_marginStart="6dp"
+            android:layoutDirection="rtl"
+            android:textColor="@drawable/subscribe_text"
+            android:theme="@style/SwitchTheme"
+            app:switchPadding="2dp" />
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
@@ -46,8 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_circle"
-        app:backgroundTint="@color/colorPrimary"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/white"
+        app:backgroundTint="@color/colorAccent"
         app:backgroundTintMode="src_atop"
         app:borderWidth="0dp" />
 

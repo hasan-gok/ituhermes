@@ -1,7 +1,6 @@
 package com.itu.software.ituhermes.Fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itu.software.ituhermes.Code;
@@ -31,7 +29,7 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
     View view;
     RecyclerView recyclerView;
     PostListAdapter adapter;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog;
     public int topicId;
     int pageNumber;
     boolean failed = false;
@@ -47,37 +45,16 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
         recyclerView.setAdapter(adapter);
         topicId = ((Topic) getArguments().getSerializable(PostPagerActivity.TOPIC_KEY)).getTopicId();
         pageNumber = getArguments().getInt(PostPagerActivity.PAGENUMBER_KEY);
-        progressBar = view.findViewById(R.id.post_proggressbar);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getResources().getString(R.string.wait_prompt));
         updateItems();
         return view;
     }
 
-    private void showProgressBar(final boolean show) {
-        view.setVisibility(show ? View.GONE : View.VISIBLE);
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        view.animate().setDuration(shortAnimTime)
-                .alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                view.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        progressBar.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
     public void updateItems() {
-        try {
-            showProgressBar(true);
-        } catch (IllegalStateException e) {
-            Log.d(TAG, e.getMessage());
-        }
-        GetPosts<PostPageFragment> task = new GetPosts<>(this, topicId, pageNumber);
+        progressDialog.show();
+        GetPosts task = new GetPosts(this, topicId, pageNumber);
         task.execute();
     }
 
@@ -85,17 +62,13 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
     public void callbackUI(Code code, ArrayList<Post> data) {
         switch (code) {
             case DATA_SUCCESS: {
-                try {
-                    showProgressBar(false);
-                } catch (IllegalStateException e) {
-                    Log.d(TAG, e.getMessage());
-                }
                 if (data.size() > 0) {
                     adapter.setPosts(data);
                 }
                 break;
             }
         }
+        progressDialog.dismiss();
     }
 
     @Override
@@ -106,18 +79,19 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
                 callback.callbackUI(Code.FAIL);
             }
         }
+        progressDialog.dismiss();
     }
 
     public boolean isFailed() {
         return failed;
     }
 
-    protected class PostListItem extends RecyclerView.ViewHolder {
+    class PostListItem extends RecyclerView.ViewHolder {
         TextView senderText;
         TextView messageText;
         TextView dateText;
 
-        public PostListItem(@NonNull View itemView) {
+        PostListItem(@NonNull View itemView) {
             super(itemView);
             senderText = itemView.findViewById(R.id.post_sender);
             messageText = itemView.findViewById(R.id.post_message);
@@ -128,7 +102,7 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
     protected class PostListAdapter extends RecyclerView.Adapter<PostListItem> {
         ArrayList<Post> posts;
 
-        public PostListAdapter() {
+        PostListAdapter() {
             posts = new ArrayList<>();
         }
 

@@ -32,6 +32,23 @@
     <string name="cancel">Cancel</string>
     <string name="new_post">New Post</string>
     <string name="subscription">Subscription</string>
-    <string name="unsubscribe">UNSUBSCRIBE</string>
-    <string name="subscribe">SUBSCRIBE</string>
+    <string name="notsubscribing">Not subscribing</string>
+    <string name="subscribing">Subscribing</string>
+    <string name="title">Title</string>
+    <string name="add_topic">Add Topic</string>
+    <string name="OK">OK</string>
+    <string name="wait_prompt">Please wait…</string>
+    <string name="posts">Posts</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="notification_title">ITU Hermes</string>
+    <string name="notification_text">You have new notifications!</string>
+    <string name="notification_title_text">Notifications</string>
+    <string name="posted">posted:</string>
+    <string name="go_to_topic">Go to topic</string>
+    <string name="tag">TAG</string>
+    <string name="titleCaps">TITLE</string>
+    <string name="message">Message</string>
+    <string name="you_don_t_have_any_new_recommendations">You don\'t have any new recommendations</string>
+    <string name="you_don_t_have_any_new_posts">You don\'t have any new posts</string>
+
 </resources>

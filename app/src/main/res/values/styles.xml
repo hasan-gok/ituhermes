@@ -1,11 +1,40 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="android:colorControlNormal">@color/colorLight</item>
+        <item name="android:colorControlActivated">@color/colorAccent</item>
+        <item name="android:colorControlHighlight">@color/colorLight</item>
+        <item name="android:editTextColor">@color/colorLight</item>
+        <item name="android:textColorHint">@color/colorLight</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="SwitchTheme" parent="Base.Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorAccent2</item>
+        <item name="colorSwitchThumbNormal">@color/colorLight</item>
+        <item name="android:colorForeground">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TextEditTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:color">@color/colorLight</item>
+    </style>
+
+    <style name="spinner_style">
+        <item name="android:background">@drawable/ic_details_white_24dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
 
 </resources>

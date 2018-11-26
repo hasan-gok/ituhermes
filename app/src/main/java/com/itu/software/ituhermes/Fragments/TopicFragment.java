@@ -3,9 +3,11 @@ package com.itu.software.ituhermes.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,12 +25,13 @@ import com.itu.software.ituhermes.Wrapper.Topic;
 
 import java.util.ArrayList;
 
-public class TopicFragment extends Fragment implements IUICallback<ArrayList<Topic>>, SwipeRefreshLayout.OnRefreshListener {
+public class TopicFragment extends Fragment implements IUICallback, SwipeRefreshLayout.OnRefreshListener {
     View view;
     RecyclerView recyclerView;
     TopicListAdapter adapter;
     SwipeRefreshLayout refreshLayout;
     LoadTopicCallback loadTopicCallback;
+    FloatingActionButton fab;
     boolean refreshRequested = true;
 
     public TopicFragment() {
@@ -40,10 +43,24 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_topic, container, false);
         recyclerView = view.findViewById(R.id.topic_recycler);
+        fab = view.findViewById(R.id.create_post_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddTopicDialogFragment fragment = new AddTopicDialogFragment();
+                fragment.setCallback(TopicFragment.this);
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                try {
+                    fragment.show(activity.getSupportFragmentManager(), "postDialog");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         adapter = new TopicListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new DownScrollListener(this));
+        recyclerView.addOnScrollListener(new DownScrollListener());
         refreshLayout = view.findViewById(R.id.fragment_swipe_layout);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -51,7 +68,7 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
         refreshLayout.setRefreshing(true);
-        GetTopics<TopicFragment> task = new GetTopics<>(this, 0);
+        GetTopics task = new GetTopics(this, 0);
         task.execute();
         return view;
     }
@@ -60,26 +77,33 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
     public void onRefresh() {
         refreshRequested = true;
         refreshLayout.setRefreshing(true);
-        GetTopics<TopicFragment> task = new GetTopics<>(this, 0);
+        GetTopics task = new GetTopics(this, 0);
         task.execute();
     }
 
     @Override
-    public void callbackUI(Code code, ArrayList<Topic> data) {
+    public void callbackUI(Code code, Object data) {
         switch (code) {
             case DATA_SUCCESS: {
+                ArrayList<Topic> topics = (ArrayList<Topic>) data;
                 if (refreshLayout.isRefreshing()) {
-                    if (data.size() > 0) {
+                    if (topics.size() > 0) {
                         if (refreshRequested) {
-                            adapter.refreshTopics(data);
+                            adapter.refreshTopics(topics);
                             recyclerView.smoothScrollToPosition(0);
                         } else {
-                            adapter.addTopics(data);
+                            adapter.addTopics(topics);
                             recyclerView.smoothScrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                         }
                     }
                     refreshLayout.setRefreshing(false);
                 }
+                break;
+            }
+            case ADD_TOPIC: {
+                Topic newTopic = (Topic) data;
+                loadTopicCallback.onLoadRequest(newTopic);
+                break;
             }
         }
     }
@@ -101,7 +125,7 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
         TextView postCountText;
         Topic topic;
 
-        public TopicListItem(@NonNull View itemView) {
+        TopicListItem(@NonNull View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.topic_title_text);
             postCountText = itemView.findViewById(R.id.topic_post_count_text);
@@ -121,7 +145,7 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
     protected class TopicListAdapter extends RecyclerView.Adapter<TopicListItem> {
         ArrayList<Topic> topics;
 
-        public TopicListAdapter() {
+        TopicListAdapter() {
             topics = new ArrayList<>();
         }
 
@@ -150,33 +174,31 @@ public class TopicFragment extends Fragment implements IUICallback<ArrayList<Top
             return topics.size();
         }
 
-        public void addTopics(ArrayList<Topic> topics) {
+        void addTopics(ArrayList<Topic> topics) {
             this.topics.addAll(topics);
             this.notifyDataSetChanged();
         }
 
-        public void refreshTopics(ArrayList<Topic> topics) {
+        void refreshTopics(ArrayList<Topic> topics) {
             this.topics = topics;
             this.notifyDataSetChanged();
         }
     }
-
     protected class DownScrollListener extends RecyclerView.OnScrollListener {
-        private TopicFragment activityReference;
-
-        DownScrollListener(TopicFragment activityReference) {
-            this.activityReference = activityReference;
-        }
-
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             switch (newState) {
                 case RecyclerView.SCROLL_STATE_IDLE: {
                     if (!recyclerView.canScrollVertically(1)) {
-                        activityReference.refreshRequested = false;
-                        activityReference.refreshLayout.setRefreshing(true);
-                        GetTopics<TopicFragment> task = new GetTopics<>(activityReference, recyclerView.getAdapter().getItemCount());
-                        task.execute();
+                        TopicFragment.this.refreshRequested = false;
+                        TopicFragment.this.refreshLayout.setRefreshing(true);
+                        try {
+                            GetTopics task = new GetTopics(TopicFragment.this, recyclerView.getAdapter().getItemCount());
+                            task.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                     break;
                 }

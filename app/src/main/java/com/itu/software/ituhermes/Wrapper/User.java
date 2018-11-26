@@ -7,10 +7,21 @@ public class User {
     private String name;
     private String lastName;
     private ArrayList<String> topicTags;
-    public static User currentUser = null;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private static User currentUser = null;
 
     private User() {
         email = "";
+        token = "";
         topicTags = new ArrayList<>();
     }
 

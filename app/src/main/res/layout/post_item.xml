@@ -12,32 +12,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
-        android:textSize="6pt"
-        android:textStyle="bold"
-        android:text="Mehmet Günsür"
         android:layout_margin="10dp"
-        android:textColor="@color/colorLight" />
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/post_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
-        android:layout_margin="10dp"
-        android:text="Merhabalar efendim, merhabalar. Ee abi naptın en son bizim işi? Fenalıııı" />
+        android:layout_margin="10dp" />
 
     <TextView
         android:id="@+id/post_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:textSize="5pt"
-        android:textStyle="italic"
         android:layout_margin="5dp"
-        android:text="04/02/1996 \n 5" />
+        android:textColor="@color/colorAccent"
+        android:textSize="5pt"
+        android:textStyle="italic" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@color/colorLight" />
 </LinearLayout>

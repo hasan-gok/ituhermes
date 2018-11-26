@@ -1,41 +1,34 @@
 package com.itu.software.ituhermes;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
+import com.itu.software.ituhermes.Tasks.LoginTask;
 import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.FormValidator;
-import com.itu.software.ituhermes.connection.HTTPClient;
+import com.itu.software.ituhermes.connection.JWTUtility;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, IUICallback<String> {
     private static final int signup_request_code = 2;
     Button bLogin;
     Button bSignUp;
     EditText eEmail;
     EditText ePassword;
-    ProgressBar progressBar;
     String email;
     String password;
     View vLogin;
-    private UserLoginTask userLoginTask = null;
+    ProgressDialog progressDialog;
+    LoginTask task;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +37,73 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bSignUp = findViewById(R.id.sign_up_button);
         eEmail = findViewById(R.id.login_email);
         ePassword = findViewById(R.id.login_password);
-        progressBar = findViewById(R.id.login_progress);
         vLogin = findViewById(R.id.login_form);
         bLogin.setOnClickListener(this);
         bSignUp.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getResources().getString(R.string.wait_prompt));
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                try {
+                    task.cancel(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+    @Override
+    public void callbackUI(Code code, String data) {
+        progressDialog.dismiss();
+        switch (code) {
+            case SUCCESS:
+                JWTUtility.saveToken(this, data);
+                User.getCurrentUser().setToken(data);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.login_success);
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent resultIntent = new Intent();
+                        LoginActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                        Log.d("", "Close: ");
+
+                        LoginActivity.this.finish();
+                    }
+                });
+                builder.create().show();
+                break;
+        }
+    }
+
+    @Override
+    public void callbackUI(Code code) {
+        progressDialog.dismiss();
+        switch (code) {
+            case FAIL:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.unidentified_error);
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+            case WRONG_PASS:
+                ePassword.setError(getString(R.string.error_incorrect_password));
+                break;
+            case NO_USER:
+                eEmail.setError(getString(R.string.error_no_user));
+                break;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -83,93 +138,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             abort = true;
         }
         if (!abort){
-            showProgressBar(true);
-            userLoginTask = new UserLoginTask(this, email, password);
-            userLoginTask.execute();
-        }
-    }
-    private void showProgressBar(final boolean show){
-        if (show){
-            InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(vLogin.getWindowToken(), 0);
-        } else if (!eEmail.hasFocus() || !ePassword.hasFocus()) {
-            eEmail.requestFocus();
-        }
-        vLogin.setVisibility(show ? View.GONE : View.VISIBLE);
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        vLogin.animate().setDuration(shortAnimTime)
-                .alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                vLogin.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        progressBar.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
-    private static class UserLoginTask extends AsyncTask<Void, Void, Void> {
-        private WeakReference<LoginActivity> activityReference;
-        private String email;
-        private String password;
-        private int responseCode = -1;
-
-        private UserLoginTask(LoginActivity context, String email, String password) {
-            this.activityReference = new WeakReference<>(context);
-            this.email = email;
-            this.password = password;
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try{
-                String path = "/login";
-                JSONObject body = new JSONObject();
-                body.put("email", email);
-                body.put("password", password);
-                JSONObject response = HTTPClient.post(path, body);
-                if (response != null) {
-                    responseCode = Integer.parseInt(response.getString("code"));
-                }
-            } catch (JSONException e) {
-                Log.e("Login", e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            LoginActivity activity = activityReference.get();
-            activity.showProgressBar(false);
-            switch (responseCode){
-                case -1:
-                    Snackbar.make(activity.vLogin, R.string.unidentified_error, Snackbar.LENGTH_SHORT).show();
-                    break;
-                case 0:
-                    User.getCurrentUser().setEmail(email);
-                    Intent resultIntent = new Intent();
-                    activity.setResult(Activity.RESULT_OK, resultIntent);
-                    activity.finish();
-                    break;
-                case 1:
-                    activity.ePassword.setError(activity.getString(R.string.error_incorrect_password));
-                    break;
-                case 2:
-                    activity.eEmail.setError(activity.getString(R.string.error_no_user));
-                    break;
-                case 3:
-                    Snackbar.make(activity.vLogin, R.string.error_database, Snackbar.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-
-        @Override
-        protected void onCancelled(Void aVoid) {
-            activityReference.get().showProgressBar(false);
+            progressDialog.show();
+            LoginTask task = new LoginTask(this, email, password);
+            task.execute();
         }
     }
 

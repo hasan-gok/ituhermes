@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    app:layout_gravity="center_horizontal|center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|start"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/tag"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal|start"
+                android:gravity="center"
+                android:text="@string/titleCaps"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/topic_notify_tag"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical|clip_horizontal"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/topic_notify_title"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal|start"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:maxLines="1"
+                android:singleLine="false"
+                android:textColor="@color/colorLight"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/new_sub_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|end"
+        android:gravity="center_horizontal|center"
+        android:layoutDirection="rtl"
+        android:padding="8dp"
+        android:textColor="@drawable/subscribe_text"
+        android:theme="@style/SwitchTheme"
+        app:switchPadding="8dp" />
+
+</LinearLayout>

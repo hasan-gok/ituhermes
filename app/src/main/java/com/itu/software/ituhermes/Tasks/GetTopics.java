@@ -15,15 +15,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GetTopics<T extends IUICallback> extends AsyncTask<Void, Void, Integer> {
+public class GetTopics extends AsyncTask<Void, Void, Integer> {
     private static final String TAG = "GetTopics";
-    public static final int maxTopicAtOnce = 10;
-    private T activityReference;
+    private static final int maxTopicAtOnce = 10;
+    private IUICallback callback;
     private ArrayList<Topic> topics;
     private int rangeStart;
 
-    public GetTopics(T activityReference, int rangeStart) {
-        this.activityReference = activityReference;
+    public GetTopics(IUICallback callback, int rangeStart) {
+        this.callback = callback;
         this.rangeStart = rangeStart;
         topics = new ArrayList<>();
     }
@@ -32,9 +32,9 @@ public class GetTopics<T extends IUICallback> extends AsyncTask<Void, Void, Inte
     protected void onPostExecute(Integer returnCode) {
         super.onPostExecute(returnCode);
         if (returnCode < 0) {
-            activityReference.callbackUI(Code.FAIL);
+            callback.callbackUI(Code.FAIL);
         } else {
-            activityReference.callbackUI(Code.DATA_SUCCESS, topics);
+            callback.callbackUI(Code.DATA_SUCCESS, topics);
         }
     }
 
@@ -42,7 +42,7 @@ public class GetTopics<T extends IUICallback> extends AsyncTask<Void, Void, Inte
     protected Integer doInBackground(Void... voids) {
         int returnCode = -1;
         try {
-            String path = String.format("/topic?rangeStart=%d&increment=%d&email=%s", rangeStart, maxTopicAtOnce, User.getCurrentUser().getEmail());
+            String path = String.format("topic?rangeStart=%d&increment=%d&token=%s", rangeStart, maxTopicAtOnce, User.getCurrentUser().getToken());
             JSONObject response = HTTPClient.get(path);
             if (response != null) {
                 returnCode = response.getInt("code");

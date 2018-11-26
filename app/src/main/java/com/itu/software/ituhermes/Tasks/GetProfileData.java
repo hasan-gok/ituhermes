@@ -1,7 +1,6 @@
 package com.itu.software.ituhermes.Tasks;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.itu.software.ituhermes.Code;
 import com.itu.software.ituhermes.IUICallback;
@@ -12,20 +11,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GetProfileData<T extends IUICallback> extends AsyncTask<Void, Void, Integer> {
-    private T activityReference;
+public class GetProfileData extends AsyncTask<Void, Void, Integer> {
+    private IUICallback callback;
 
-    public GetProfileData(T activity) {
-        this.activityReference = activity;
+    public GetProfileData(IUICallback callback) {
+        this.callback = callback;
     }
 
     @Override
     protected void onPostExecute(Integer returnCode) {
         super.onPostExecute(returnCode);
         if (returnCode == 0) {
-            activityReference.callbackUI(Code.SUCCESS);
+            callback.callbackUI(Code.SUCCESS);
         } else {
-            activityReference.callbackUI(Code.FAIL);
+            callback.callbackUI(Code.FAIL);
         }
 
     }
@@ -33,22 +32,23 @@ public class GetProfileData<T extends IUICallback> extends AsyncTask<Void, Void,
     @Override
     protected Integer doInBackground(Void... voids) {
         User user = User.getCurrentUser();
-        String email = user.getEmail();
         int returnCode = -1;
-        if (!email.isEmpty()) {
-            String path = String.format("/user/%s", email);
+        try {
+            String path = String.format("user?token=%s", user.getToken());
             JSONObject response = HTTPClient.get(path);
-            try {
-                if (response != null) {
-                    JSONArray tagArray = response.getJSONArray("tags");
-                    for (int i = 0; i < tagArray.length(); i++) {
-                        user.addTopicTag(tagArray.getString(i));
-                    }
-                    returnCode = response.getInt("code");
-                }
-            } catch (JSONException e) {
-                Log.d("ProfileGet", "doInBackground: " + e.getMessage());
+            JSONArray tagArray = response.getJSONArray("tags");
+            for (int i = 0; i < tagArray.length(); i++) {
+                user.addTopicTag(tagArray.getString(i));
             }
+            String name = response.getString("name");
+            String lastName = response.getString("lastName");
+            String email = response.getString("email");
+            user.setName(name);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            returnCode = response.getInt("code");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return returnCode;
     }

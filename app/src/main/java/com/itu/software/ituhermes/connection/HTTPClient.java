@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HTTPClient {
-    private static final String baseUrl = "https://ituhermes-server.herokuapp.com";
-    //private static final String baseUrl = "http://10.0.2.2:5000";
+    private static final String baseUrl = "https://ituhermes-server.herokuapp.com/";
+    //private static final String baseUrl = "http://10.0.2.2:5000/";
 
     private static int write(HttpURLConnection connection, JSONObject body) {
         if (body != null) {
@@ -33,6 +33,22 @@ public class HTTPClient {
         }
         return -1;
     }
+
+    private static String read(HttpURLConnection connection) {
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder builder = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                builder.append(inputLine);
+            }
+            in.close();
+            return builder.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     public static JSONObject post(String path, JSONObject body) {
         JSONObject response = null;
         try {
@@ -42,17 +58,11 @@ public class HTTPClient {
             connection.setRequestProperty("content-type", "application/json; charset=utf-8");
             write(connection, body);
             if (connection.getResponseCode() == 200) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder builder = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    builder.append(inputLine);
-                }
-                in.close();
-                if (builder.toString().equals("")) {
+                String str = read(connection);
+                if (str.equals("")) {
                     response = new JSONObject("{code:0}");
                 } else {
-                    response = new JSONObject(builder.toString());
+                    response = new JSONObject(str);
                 }
             } else {
                 response = new JSONObject("{code:-1}");
@@ -72,14 +82,8 @@ public class HTTPClient {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("content-type", "application/json; charset=utf-8");
             if (connection.getResponseCode() == 200) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder builder = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    builder.append(inputLine);
-                }
-                in.close();
-                response = new JSONObject(builder.toString());
+                String str = read(connection);
+                response = new JSONObject(str);
                 response.put("code", 0);
             } else {
                 response = new JSONObject();
@@ -136,6 +140,8 @@ public class HTTPClient {
             write(connection, body);
             if (connection.getResponseCode() == 200) {
                 code = 0;
+                String str = read(connection);
+                body.put("extra", new JSONObject(str));
             }
             connection.disconnect();
         } catch (Exception e) {
