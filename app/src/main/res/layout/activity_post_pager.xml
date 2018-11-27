@@ -14,22 +14,25 @@
 
         <TextView
             android:id="@+id/posts_toolbar_text"
-            android:layout_width="200sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
 
+            android:autoText="false"
             android:ellipsize="end"
+            android:maxWidth="180sp"
             android:maxLines="1"
+            android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
             android:textColor="@color/colorLight"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:textStyle="normal" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/subscribe_switch"
-            android:layout_width="148dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="8dp"
             android:layoutDirection="rtl"
             android:textColor="@drawable/subscribe_text"
             android:theme="@style/SwitchTheme"

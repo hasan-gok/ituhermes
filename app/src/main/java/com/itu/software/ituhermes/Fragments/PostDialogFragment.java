@@ -64,7 +64,6 @@ public class PostDialogFragment extends DialogFragment implements View.OnClickLi
                 Topic topic = (Topic) getArguments().getSerializable(PostPagerActivity.TOPIC_KEY);
                 SendPost task = new SendPost(this, topic.getTopicId(), text);
                 progressDialog.setMessage("Sending post");
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCancelable(false);
                 progressDialog.setIndeterminate(true);
                 progressDialog.show();

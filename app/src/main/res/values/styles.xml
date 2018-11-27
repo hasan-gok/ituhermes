@@ -9,8 +9,8 @@
     </style>
 
     <style name="TextInputLayoutTheme" parent="Base.Widget.MaterialComponents.TextInputLayout">
-        <item name="android:colorControlNormal">@color/colorLight</item>
-        <item name="android:colorControlActivated">@color/colorAccent</item>
+        <item name="android:colorControlNormal">@color/colorAccent</item>
+        <item name="android:colorControlActivated">@color/colorLight</item>
         <item name="android:colorControlHighlight">@color/colorLight</item>
         <item name="android:editTextColor">@color/colorLight</item>
         <item name="android:textColorHint">@color/colorLight</item>

@@ -16,9 +16,9 @@ public class GetTags extends AsyncTask<Void, Void, ArrayList<String>> {
     private IUICallback callback;
     private boolean userRelated;
 
-    public GetTags(IUICallback callback, boolean userRelated) {
+    public GetTags(IUICallback callback, boolean userOnly) {
         this.callback = callback;
-        this.userRelated = userRelated;
+        this.userRelated = userOnly;
     }
 
     @Override

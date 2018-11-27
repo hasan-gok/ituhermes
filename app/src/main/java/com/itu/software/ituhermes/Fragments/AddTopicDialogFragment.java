@@ -108,7 +108,7 @@ public class AddTopicDialogFragment extends DialogFragment implements View.OnCli
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         try {
             progressDialog = new ProgressDialog(getContext());
-            progressDialog.setTitle("Loading");
+            progressDialog.setMessage(getResources().getString(R.string.wait_prompt));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
             progressDialog.show();

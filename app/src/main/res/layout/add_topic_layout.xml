@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -42,17 +43,18 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/available_tags"
-            android:layout_gravity="start"
+            android:layout_gravity="center_vertical|start"
             android:gravity="center"
+            android:text="@string/available_tags"
             android:textColor="@color/colorLight" />
 
         <Spinner
             android:id="@+id/tag_spinner"
-            android:layout_width="132dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="12dp" />
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginStart="12dp"
+            android:padding="12dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,10 +73,10 @@
 
         <Button
             android:id="@+id/add_topic_button"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            style="?android:attr/borderlessButtonStyle"
 
             android:text="@string/add"
             android:textColor="@color/colorLight" />

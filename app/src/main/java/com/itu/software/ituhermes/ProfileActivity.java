@@ -38,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
     private String tagToAdd;
     private String tagToDelete;
     private GetProfileData task;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
+        progressDialog.setMessage(getResources().getString(R.string.wait_prompt));
         followedTags = findViewById(R.id.followed_tags);
         followedTags = findViewById(R.id.followed_tags);
         followedTags.setLayoutManager(new LinearLayoutManager(this));
@@ -86,9 +88,15 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
                 builder.create().show();
                 break;
             case DATA_SUCCESS:
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout, data);
-                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-                tagNames.setAdapter(adapter);
+                if (tagNames.getAdapter() == null) {
+                    adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout, data);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                    tagNames.setAdapter(adapter);
+                } else {
+                    adapter.clear();
+                    adapter.addAll(data);
+                    adapter.notifyDataSetChanged();
+                }
                 break;
         }
     }
@@ -112,7 +120,6 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
             case SUCCESS:
                 emailText.setText(User.getCurrentUser().getEmail());
                 nameText.setText(String.format("%s %s", User.getCurrentUser().getName(), User.getCurrentUser().getLastName()));
-                progressDialog.show();
                 taskG.execute();
                 break;
             case ADD_TAG:
