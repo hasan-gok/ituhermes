@@ -52,9 +52,11 @@ public class GetPosts extends AsyncTask<Void, Void, Integer> {
                     JSONObject sender = postObj.getJSONObject("sender");
                     String senderName = sender.getString("name");
                     String senderLastName = sender.getString("lastName");
+                    String senderId = sender.getString("_id");
                     String date = postObj.getString("date");
                     String message = postObj.getString("message");
-                    Post newPost = new Post(senderName + ' ' + senderLastName, message, date, topicId);
+                    String postId = postObj.getString("_id");
+                    Post newPost = new Post(senderName + ' ' + senderLastName, message, date, topicId, postId, senderId);
                     posts.add(newPost);
                 }
         } catch (Exception e) {

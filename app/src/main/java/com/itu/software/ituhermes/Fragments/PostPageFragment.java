@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.itu.software.ituhermes.Code;
@@ -20,12 +22,14 @@ import com.itu.software.ituhermes.R;
 import com.itu.software.ituhermes.Tasks.GetPosts;
 import com.itu.software.ituhermes.Wrapper.Post;
 import com.itu.software.ituhermes.Wrapper.Topic;
+import com.itu.software.ituhermes.Wrapper.User;
 
 import java.util.ArrayList;
 
 
 public class PostPageFragment extends Fragment implements IUICallback<ArrayList<Post>> {
     private static final String TAG = "PostPageFragment";
+    public static final String POST_KEY = "com.itu.software.ituhermes.postPage.postKey";
     View view;
     RecyclerView recyclerView;
     PostListAdapter adapter;
@@ -77,7 +81,11 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
             case FAIL: {
                 failed = true;
                 callback.callbackUI(Code.FAIL);
+                break;
             }
+            case POST_SUCCESS:
+                updateItems();
+                break;
         }
         progressDialog.dismiss();
     }
@@ -90,12 +98,13 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
         TextView senderText;
         TextView messageText;
         TextView dateText;
-
+        ImageButton editPostButton;
         PostListItem(@NonNull View itemView) {
             super(itemView);
             senderText = itemView.findViewById(R.id.post_sender);
             messageText = itemView.findViewById(R.id.post_message);
             dateText = itemView.findViewById(R.id.post_date);
+            editPostButton = itemView.findViewById(R.id.edit_post_button);
         }
     }
 
@@ -114,13 +123,34 @@ public class PostPageFragment extends Fragment implements IUICallback<ArrayList<
         }
 
         @Override
-        public void onBindViewHolder(@NonNull PostListItem postListItem, int i) {
+        public void onBindViewHolder(@NonNull final PostListItem postListItem, int i) {
             try {
-                postListItem.senderText.setText(posts.get(i).getSender());
-                postListItem.messageText.setText(posts.get(i).getMessage());
-                postListItem.dateText.setText(posts.get(i).getDate());
+                final Post post = posts.get(i);
+                postListItem.senderText.setText(post.getSender());
+                postListItem.messageText.setText(post.getMessage());
+                postListItem.dateText.setText(post.getDate());
+                Log.d(TAG, "onBindViewHolder: " + post.getSenderId());
+                Log.d(TAG, "onBind" + User.getCurrentUser().getUserId());
+                if (post.getSenderId().equals(User.getCurrentUser().getUserId())){
+                    postListItem.editPostButton.setVisibility(View.VISIBLE);
+                    postListItem.editPostButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PostEditFragment fragment = new PostEditFragment();
+                            Bundle args = new Bundle();
+                            args.putSerializable(POST_KEY, post);
+                            fragment.setArguments(args);
+                            fragment.setCallback(PostPageFragment.this);
+                            fragment.show(getActivity().getSupportFragmentManager(), "editPostDialog");
+                        }
+                    });
+                }
+                else{
+                    postListItem.editPostButton.setVisibility(View.GONE);
+                }
+
             } catch (Exception e) {
-                Log.d("", "onBindViewHolder: " + e.getMessage());
+                e.printStackTrace();
             }
         }
 

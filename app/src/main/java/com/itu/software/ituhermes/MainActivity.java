@@ -1,7 +1,9 @@
 package com.itu.software.ituhermes;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,34 +16,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.itu.software.ituhermes.Fragments.TopicFragment;
+import com.itu.software.ituhermes.Tasks.GetProfileData;
 import com.itu.software.ituhermes.Tasks.SendFirebaseToken;
 import com.itu.software.ituhermes.Wrapper.Topic;
 import com.itu.software.ituhermes.Wrapper.User;
 import com.itu.software.ituhermes.connection.JWTUtility;
 
-public class MainActivity extends AppCompatActivity implements LoadTopicCallback {
+public class MainActivity extends AppCompatActivity implements LoadTopicCallback, IUICallback{
     private static final int LOGIN_REQUEST_CODE = 1;
     public static final String CHANNEL_ID = "itu_hermes_channel";
     TextView text;
     Toolbar toolbar;
     Button profileButton;
+    ImageButton searchButton;
+    View fragmentHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
         profileButton = findViewById(R.id.profile_toolbar_button);
+        fragmentHolder = findViewById(R.id.fragment_container);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+        searchButton = findViewById(R.id.search_menu_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                Fragment fragment = new SearchFragment();
+                ((SearchFragment) fragment).setLoadTopicCallback(MainActivity.this);
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
         setSupportActionBar(toolbar);
@@ -60,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
             startActivityForResult(intent, LOGIN_REQUEST_CODE);
         } else {
             User.getCurrentUser().setToken(token);
+            GetProfileData task = new GetProfileData(this);
+            task.execute();
             initTopicFragment();
         }
     }
@@ -97,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
         if (fragment instanceof TopicFragment) {
             TopicFragment topicFragment = (TopicFragment) fragment;
             topicFragment.setLoadTopicCallback(this);
-
         }
     }
 
@@ -110,8 +131,14 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        if (fragment != null){
+            fm.popBackStack();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     private void createNotificationChannel() {
@@ -124,4 +151,25 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
             notificationManager.createNotificationChannel(channel);
         }
     }
+    @Override
+    public void callbackUI(Code code, Object data) {
+
+    }
+
+    @Override
+    public void callbackUI(Code code) {
+        switch (code){
+            case FAIL:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setMessage(R.string.unidentified_error);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        }
+    }
+
 }

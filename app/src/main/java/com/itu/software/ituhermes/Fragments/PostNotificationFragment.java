@@ -89,7 +89,7 @@ public class PostNotificationFragment extends Fragment implements IUICallback<To
                 String message = dataObject.getString("post");
                 String date = dataObject.getString("date");
                 int topicId = dataObject.getInt("topicId");
-                Post post = new Post(sender, message, date, topicId);
+                Post post = new Post(sender, message, date, topicId, "", "");
                 newPosts.add(post);
             }
         } catch (Exception e) {

@@ -67,9 +67,11 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
         followedTags = findViewById(R.id.followed_tags);
         followedTags.setLayoutManager(new LinearLayoutManager(this));
         followedTags.setAdapter(new TopicTagAdapter());
+        emailText.setText(User.getCurrentUser().getEmail());
+        nameText.setText(String.format("%s %s", User.getCurrentUser().getName(), User.getCurrentUser().getLastName()));
         progressDialog.show();
-        task = new GetProfileData(this);
-        task.execute();
+        GetTags taskG = new GetTags(this, true);
+        taskG.execute();
     }
 
     @Override
@@ -116,11 +118,6 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
                     }
                 });
                 builder.create().show();
-                break;
-            case SUCCESS:
-                emailText.setText(User.getCurrentUser().getEmail());
-                nameText.setText(String.format("%s %s", User.getCurrentUser().getName(), User.getCurrentUser().getLastName()));
-                taskG.execute();
                 break;
             case ADD_TAG:
                 User.getCurrentUser().addTopicTag(tagToAdd);

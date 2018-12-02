@@ -8,7 +8,7 @@ public class User {
     private String lastName;
     private ArrayList<String> topicTags;
     private String token;
-
+    private String userId;
     public String getToken() {
         return token;
     }
@@ -23,6 +23,14 @@ public class User {
         email = "";
         token = "";
         topicTags = new ArrayList<>();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public static User getCurrentUser() {

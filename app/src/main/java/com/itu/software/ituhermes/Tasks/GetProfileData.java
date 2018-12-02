@@ -43,9 +43,11 @@ public class GetProfileData extends AsyncTask<Void, Void, Integer> {
             String name = response.getString("name");
             String lastName = response.getString("lastName");
             String email = response.getString("email");
+            String userId = response.getString("_id");
             user.setName(name);
             user.setLastName(lastName);
             user.setEmail(email);
+            user.setUserId(userId);
             returnCode = response.getInt("code");
         } catch (JSONException e) {
             e.printStackTrace();

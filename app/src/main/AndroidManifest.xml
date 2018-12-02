@@ -44,7 +44,7 @@
         <activity
             android:name=".ProfileActivity"
             android:label=""
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PostPagerActivity"
             android:label=""
@@ -53,7 +53,7 @@
             android:name=".NotificationActivity"
             android:label="">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
     </application>
