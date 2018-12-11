@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class PostNotificationFragment extends Fragment implements IUICallback<To
         switch (code) {
             case DATA_SUCCESS:
                 progressDialog.dismiss();
-                Log.d("", "callbackUI: " + data);
                 Intent intent = new Intent(getActivity(), PostPagerActivity.class);
                 intent.putExtra(PostPagerActivity.TOPIC_KEY, data);
                 startActivity(intent);

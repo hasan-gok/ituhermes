@@ -61,6 +61,7 @@ public class GetPosts extends AsyncTask<Void, Void, Integer> {
                 }
         } catch (Exception e) {
             e.printStackTrace();
+            returnCode = -1;
         }
         return returnCode;
     }

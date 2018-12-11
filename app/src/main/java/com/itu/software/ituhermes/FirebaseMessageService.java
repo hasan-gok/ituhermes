@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -24,7 +23,6 @@ public class FirebaseMessageService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
-        Log.d(TAG, "Refreshed token: " + token);
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
@@ -80,7 +78,8 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                     .setContentText(this.getString(R.string.notification_text))
                     .setContentIntent(pendingIntent)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setSmallIcon(R.drawable.ic_launcher_foreground).build();
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setAutoCancel(true).build();
             notificationManager.notify(NOTIFICATION_ID, notification);
         } catch (Exception e) {
             e.printStackTrace();

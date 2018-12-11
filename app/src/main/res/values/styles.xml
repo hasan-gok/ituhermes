@@ -9,25 +9,25 @@
     </style>
 
     <style name="TextInputLayoutTheme" parent="Base.Widget.MaterialComponents.TextInputLayout">
-        <item name="android:colorControlNormal">@color/colorAccent</item>
-        <item name="android:colorControlActivated">@color/colorLight</item>
-        <item name="android:colorControlHighlight">@color/colorLight</item>
-        <item name="android:editTextColor">@color/colorLight</item>
-        <item name="android:textColorHint">@color/colorLight</item>
+        <item name="android:colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="android:colorControlActivated">@color/colorPrimaryLight</item>
+        <item name="android:colorControlHighlight">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/colorSecondary</item>
+        <item name="android:textColorHint">@color/colorSecondaryDark</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
     <style name="SwitchTheme" parent="Base.Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/colorAccent2</item>
-        <item name="colorSwitchThumbNormal">@color/colorLight</item>
-        <item name="android:colorForeground">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorSwitchThumbNormal">@color/colorPrimaryLight</item>
+        <item name="android:colorForeground">@color/colorDark</item>
     </style>
 
     <style name="TextEditTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:color">@color/colorLight</item>
+        <item name="android:color">@color/primaryText</item>
     </style>
 
     <style name="spinner_style">

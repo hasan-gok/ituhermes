@@ -18,18 +18,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:text="@string/action_signup"
-            android:textColor="@color/colorLight"
+            android:textColor="@color/primaryText"
             android:textSize="22sp"
             android:textStyle="normal" />
     </android.support.v7.widget.Toolbar>
+
     <ScrollView
+        android:id="@+id/signup_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorDark"
         android:paddingStart="16dp"
         android:paddingTop="32dp"
-        android:paddingEnd="16dp"
-        android:id="@+id/signup_form"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,13 +111,13 @@
 
             <Button
                 android:id="@+id/signup_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/design_default_color_primary_dark"
+                android:backgroundTint="@color/colorSecondary"
                 android:text="@string/action_signup"
-                android:textColor="@color/white" />
+                android:textColor="@color/primaryText" />
         </LinearLayout>
     </ScrollView>
 

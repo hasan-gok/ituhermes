@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorDark"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/post_thumbnail"
@@ -17,8 +18,8 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/post_icon_100dp"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/post_icon_100dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,6 +27,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/you_don_t_have_any_new_posts"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -33,7 +35,9 @@
         android:id="@+id/new_post_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="4dp"
         tools:listItem="@layout/post_notification_item">
 
     </android.support.v7.widget.RecyclerView>

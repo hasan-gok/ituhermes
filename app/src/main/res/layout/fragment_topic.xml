@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
+    android:layout_marginTop="8dp"
+    android:background="@color/colorDark"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_swipe_layout"
         android:layout_gravity="center"
         android:gravity="center">
 
@@ -20,6 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             tools:listitem="@layout/topic_recycler_item">
 
         </android.support.v7.widget.RecyclerView>
@@ -31,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/white"
+        android:src="@drawable/ic_plus"
+        android:tint="@color/primaryText"
         app:backgroundTint="@color/colorAccent"
         app:backgroundTintMode="src_atop"
         app:borderWidth="0dp" />

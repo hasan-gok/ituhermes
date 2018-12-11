@@ -80,4 +80,11 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public void clearData() {
+        this.email = "";
+        this.userId = "";
+        this.name = "";
+        this.token = "";
+    }
 }

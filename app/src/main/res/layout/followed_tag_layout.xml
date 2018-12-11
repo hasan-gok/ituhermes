@@ -13,6 +13,7 @@
         android:layout_gravity="start|center_vertical"
         android:gravity="center"
         android:text="@string/available_tags"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp" />
 
     <ImageButton

@@ -3,8 +3,8 @@
     android:id="@+id/post_box"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/colorDark"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +14,7 @@
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/new_post"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryText"
         android:textSize="10pt" />
 
     <android.support.design.widget.TextInputLayout
@@ -41,23 +41,21 @@
 
         <Button
             android:id="@+id/cancel_button"
-            style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorAccent2" />
+            android:textColor="@color/secondaryText" />
 
         <Button
             android:id="@+id/send_post_button"
-            style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/send"
-            android:textColor="@color/colorLight" />
+            android:textColor="@color/secondaryText" />
 
     </LinearLayout>
 

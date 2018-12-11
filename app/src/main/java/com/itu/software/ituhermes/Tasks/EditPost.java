@@ -45,7 +45,6 @@ public class EditPost extends AsyncTask<Void, Void, Integer> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "doInBackground: " + returnCode);
         return returnCode;
     }
 }

@@ -2,6 +2,7 @@ package com.itu.software.ituhermes;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -151,14 +152,21 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         });
         switch (code) {
             case SUCCESS:
-                builder.setMessage(R.string.signup_success);
+                progressDialog.show();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                intent.putExtra("email", eEmail.getText().toString());
+                intent.putExtra("pass", ePassword.getText().toString());
+                finish();
                 break;
             case USER_EXISTS:
                 builder.setMessage(R.string.error_user_already_defined);
+                builder.create().show();
                 break;
             case FAIL:
                 builder.setMessage(R.string.unidentified_error);
+                builder.create().show();
+                break;
         }
-        builder.create().show();
     }
 }

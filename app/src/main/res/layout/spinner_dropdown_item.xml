@@ -8,5 +8,5 @@
     android:textSize="18sp"
     android:padding="8dp"
     android:background="@color/colorPrimaryDark"
-    android:textColor="@color/colorLight"
+    android:textColor="@color/primaryText"
     android:ellipsize="marquee" />

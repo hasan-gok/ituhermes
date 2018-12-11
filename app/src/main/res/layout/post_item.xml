@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/ic_roundrect"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
@@ -19,17 +21,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_margin="10dp"
-            android:textColor="@color/colorLight2"
+            android:textColor="@color/primaryText"
             android:textSize="16sp"
             android:textStyle="normal" />
 
         <ImageButton
             android:id="@+id/edit_post_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center_vertical|end"
             android:background="@android:color/transparent"
-            android:tint="@color/colorAccent2"
+            android:tint="@color/colorAccent"
             app:srcCompat="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
@@ -50,8 +52,4 @@
         android:textSize="5pt"
         android:textStyle="italic" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorLight" />
 </LinearLayout>

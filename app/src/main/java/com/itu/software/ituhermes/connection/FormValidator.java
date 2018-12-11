@@ -1,7 +1,5 @@
 package com.itu.software.ituhermes.connection;
 
-import android.util.Log;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +19,6 @@ public class FormValidator {
     private static boolean validator(String regex, String toMatch) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(toMatch);
-        Log.d("", "validator: " + matcher.toString());
         return matcher.matches();
     }
 }

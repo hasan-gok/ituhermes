@@ -3,22 +3,19 @@ package com.itu.software.ituhermes;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.InputEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.itu.software.ituhermes.Fragments.TopicFragment;
 import com.itu.software.ituhermes.Tasks.SearchTopics;
 import com.itu.software.ituhermes.Wrapper.Topic;
 
@@ -69,7 +66,6 @@ public class SearchFragment extends Fragment implements IUICallback<ArrayList<To
     }
 
     public void setLoadTopicCallback(LoadTopicCallback callback) {
-        Log.d("", "setLoadTopicCallback: " + callback.toString());
         this.loadTopicCallback = callback;
     }
 

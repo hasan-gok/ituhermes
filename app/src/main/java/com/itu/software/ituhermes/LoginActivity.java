@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -19,7 +20,7 @@ import com.itu.software.ituhermes.connection.FormValidator;
 import com.itu.software.ituhermes.connection.JWTUtility;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, IUICallback<String> {
-    private static final int signup_request_code = 2;
+    public static final int SIGNUP_REQUEST_CODE = 2;
     Button bLogin;
     Button bSignUp;
     EditText eEmail;
@@ -63,20 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case SUCCESS:
                 JWTUtility.saveToken(this, data);
                 User.getCurrentUser().setToken(data);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.login_success);
-                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent resultIntent = new Intent();
-                        LoginActivity.this.setResult(Activity.RESULT_OK, resultIntent);
-                        Log.d("", "Close: ");
-
-                        LoginActivity.this.finish();
-                    }
-                });
-                builder.create().show();
+                Intent resultIntent = new Intent();
+                LoginActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                LoginActivity.this.finish();
                 break;
         }
     }
@@ -112,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         else{
             Intent intent = new Intent(this, SignupActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, SIGNUP_REQUEST_CODE);
         }
     }
     private void tryLogin(){
@@ -149,5 +139,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent resultIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, resultIntent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case SIGNUP_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        String email = data.getExtras().getString("email");
+                        String password = data.getExtras().getString("pass");
+                        LoginTask task = new LoginTask(this, email, password);
+                        task.execute();
+                    } catch (NullPointerException e) {
+                        Log.e("", "onActivityResult: " + e.getMessage());
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

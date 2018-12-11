@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorDark"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/topic_thumbnail"
@@ -24,6 +25,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/you_don_t_have_any_new_recommendations"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -31,7 +33,9 @@
         android:id="@+id/new_topic_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="4dp"
         tools:listItem="@layout/topic_notification_item">
 
     </android.support.v7.widget.RecyclerView>

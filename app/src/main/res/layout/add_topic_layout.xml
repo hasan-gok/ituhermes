@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/colorDark"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:gravity="center"
-        android:padding="4dp"
+        android:padding="6dp"
         android:text="@string/add_topic"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryText"
         android:textSize="10pt" />
 
     <android.support.design.widget.TextInputLayout
@@ -46,7 +45,7 @@
             android:layout_gravity="center_vertical|start"
             android:gravity="center"
             android:text="@string/available_tags"
-            android:textColor="@color/colorLight" />
+            android:textColor="@color/colorAccent" />
 
         <Spinner
             android:id="@+id/tag_spinner"
@@ -65,21 +64,18 @@
 
         <Button
             android:id="@+id/cancel_add_topic"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:textColor="@color/colorAccent2" />
+            android:textColor="@color/primaryText" />
 
         <Button
             android:id="@+id/add_topic_button"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
 
             android:text="@string/add"
-            android:textColor="@color/colorLight" />
+            android:textColor="@color/primaryText" />
     </LinearLayout>
 
 </LinearLayout>

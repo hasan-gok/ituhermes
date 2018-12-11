@@ -1,6 +1,5 @@
 package com.itu.software.ituhermes;
 
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
@@ -12,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -49,6 +49,31 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+        profileButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage(R.string.log_off_prompt);
+                builder.setPositiveButton(R.string.log_off, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        JWTUtility.deleteToken(MainActivity.this);
+                        User.getCurrentUser().clearData();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivityForResult(intent, LOGIN_REQUEST_CODE);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                return true;
             }
         });
         searchButton = findViewById(R.id.search_menu_button);
@@ -136,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
         if (fragment != null){
             fm.popBackStack();
         }
-        else{
+        if (fm.getBackStackEntryCount() == 1) {
             super.onBackPressed();
         }
     }

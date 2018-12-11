@@ -12,11 +12,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static android.support.constraint.Constraints.TAG;
-
 public class HTTPClient {
-    //private static final String baseUrl = "https://ituhermes-server.herokuapp.com/";
-    private static final String baseUrl = "http://10.0.2.2:5000/";
+    private static final String baseUrl = "https://ituhermes-server.herokuapp.com/";
+    //private static final String baseUrl = "http://10.0.2.2:5000/";
 
     private static int write(HttpURLConnection connection, JSONObject body) {
         if (body != null) {
@@ -25,7 +23,6 @@ public class HTTPClient {
             try {
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
                 out.write(body.toString());
-                Log.d("TAG", "write: " + body.toString());
                 out.flush();
                 out.close();
                 return 0;

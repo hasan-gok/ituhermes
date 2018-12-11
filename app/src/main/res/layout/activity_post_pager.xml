@@ -23,7 +23,7 @@
             android:maxWidth="180sp"
             android:maxLines="1"
             android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            android:textColor="@color/colorLight"
+            android:textColor="@color/primaryText"
             android:textSize="14sp"
             android:textStyle="normal" />
 
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorDark"
         android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
@@ -61,8 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/white"
+        android:src="@drawable/ic_plus"
         app:backgroundTint="@color/colorAccent"
         app:backgroundTintMode="src_atop"
         app:borderWidth="0dp" />

@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/ic_roundrect"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -25,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/posted"
+            android:textColor="@color/primaryText"
             android:textSize="6pt" />
 
     </LinearLayout>
@@ -33,7 +36,8 @@
         android:id="@+id/new_post_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:textColor="@color/primaryText" />
 
     <Button
         android:id="@+id/goto_topic"
@@ -44,8 +48,4 @@
         android:text="@string/go_to_topic"
         android:textColor="@color/colorAccent" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
 </LinearLayout>
