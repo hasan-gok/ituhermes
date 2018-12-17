@@ -82,9 +82,11 @@ public class User {
     }
 
     public void clearData() {
-        this.email = "";
-        this.userId = "";
-        this.name = "";
-        this.token = "";
+        email = "";
+        userId = "";
+        name = "";
+        lastName = "";
+        token = "";
+        topicTags.clear();
     }
 }

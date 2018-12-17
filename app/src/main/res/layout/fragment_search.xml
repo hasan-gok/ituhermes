@@ -1,52 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_search"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDark"
-    android:orientation="vertical"
-    android:padding="8dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp">
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:theme="@style/TextInputLayoutTheme">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/search_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/search"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:theme="@style/TextInputLayoutTheme" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/search_button"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.1"
-            android:background="@android:color/transparent"
-            android:tint="@color/colorAccent"
-            app:srcCompat="@android:drawable/ic_menu_search" />
-
-    </LinearLayout>
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp" />
+        android:layout_marginTop="8dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        tools:listitem="@layout/topic_recycler_item" />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.itu.software.ituhermes;
+package com.itu.software.ituhermes.Fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -6,16 +6,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.itu.software.ituhermes.Code;
+import com.itu.software.ituhermes.IUICallback;
+import com.itu.software.ituhermes.LoadTopicCallback;
+import com.itu.software.ituhermes.R;
 import com.itu.software.ituhermes.Tasks.SearchTopics;
 import com.itu.software.ituhermes.Wrapper.Topic;
 
@@ -24,8 +26,6 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment implements IUICallback<ArrayList<Topic>> {
     LoadTopicCallback loadTopicCallback;
     RecyclerView recyclerView;
-    ImageButton searchButton;
-    TextInputEditText searchText;
     ProgressDialog progressDialog;
     @Nullable
     @Override
@@ -33,38 +33,16 @@ public class SearchFragment extends Fragment implements IUICallback<ArrayList<To
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         recyclerView = view.findViewById(R.id.search_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        searchText = view.findViewById(R.id.search_text);
-        searchButton = view.findViewById(R.id.search_button);
+        String query = getArguments().getString("SearchQuery");
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage(getActivity().getResources().getString(R.string.wait_prompt));
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String query = searchText.getText().toString();
-                if (query.length() >= 3){
-                    progressDialog.show();
-                    SearchTopics task = new SearchTopics(SearchFragment.this, query);
-                    task.execute();
-                }
-                else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setCancelable(false);
-                    builder.setMessage(R.string.search_count_warning);
-                    builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.create().show();
-                }
-            }
-        });
+        progressDialog.show();
+        SearchTopics task = new SearchTopics(SearchFragment.this, query);
+        task.execute();
         return view;
     }
-
     public void setLoadTopicCallback(LoadTopicCallback callback) {
         this.loadTopicCallback = callback;
     }

@@ -18,16 +18,16 @@ import com.itu.software.ituhermes.Tasks.SignupTask;
 import com.itu.software.ituhermes.connection.FormValidator;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener, IUICallback {
-    private EditText eName;
-    private EditText eLastName;
-    private EditText eEmail;
-    private EditText ePassword;
-    private EditText ePasswordVal;
-    private Button bSignup;
-    private ProgressDialog progressDialog;
-    private View vSignupForm;
-    private Toolbar toolbar;
-    private SignupTask task;
+    EditText eName;
+    EditText eLastName;
+    EditText eEmail;
+    EditText ePassword;
+    EditText ePasswordVal;
+    Button bSignup;
+    ProgressDialog progressDialog;
+    View vSignupForm;
+    Toolbar toolbar;
+    SignupTask task;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

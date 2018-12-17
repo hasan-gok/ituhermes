@@ -45,7 +45,11 @@ public class ProfileActivity extends AppCompatActivity implements IUICallback<Ar
         setContentView(R.layout.activity_profile);
         toolbar = findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         profileForm = findViewById(R.id.profile_form);
         tagNames = findViewById(R.id.tag_names);
         addButton = findViewById(R.id.add_button);

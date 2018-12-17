@@ -11,24 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme">
-
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/profilebutton"
+            android:background="@drawable/ic_profile"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/primaryText"
             android:id="@+id/profile_toolbar_button" />
 
-        <ImageButton
-            android:id="@+id/search_menu_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            android:background="@android:color/transparent"
-            android:tint="@color/primaryText"
-            app:srcCompat="@android:drawable/ic_search_category_default" />
+        <android.support.v7.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="true"
+            android:id="@+id/search_view">
+
+        </android.support.v7.widget.SearchView>
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout

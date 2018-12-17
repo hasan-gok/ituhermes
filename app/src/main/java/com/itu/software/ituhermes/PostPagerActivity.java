@@ -140,7 +140,6 @@ public class PostPagerActivity extends AppCompatActivity implements IUICallback<
             topic.setSubscribing(false);
         }
         subscribeSwitch.setClickable(true);
-
     }
 
     private class PostPagerAdapter extends FragmentStatePagerAdapter {

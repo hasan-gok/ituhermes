@@ -13,15 +13,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.itu.software.ituhermes.Fragments.SearchFragment;
 import com.itu.software.ituhermes.Fragments.TopicFragment;
 import com.itu.software.ituhermes.Tasks.GetProfileData;
 import com.itu.software.ituhermes.Tasks.SendFirebaseToken;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
     TextView text;
     Toolbar toolbar;
     Button profileButton;
-    ImageButton searchButton;
+    SearchView searchView;
     View fragmentHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +78,49 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
                 return true;
             }
         });
-        searchButton = findViewById(R.id.search_menu_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onQueryTextSubmit(String s) {
+                if (s.length() < 3) {
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
+                    builder.setCancelable(false);
+                    builder.setMessage(R.string.search_count_warning);
+                    builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                    return false;
+                }
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 Fragment fragment = new SearchFragment();
                 ((SearchFragment) fragment).setLoadTopicCallback(MainActivity.this);
+                Bundle bundle = new Bundle();
+                bundle.putString("SearchQuery", s);
+                fragment.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("", "onFocusChange: " + hasFocus);
+                if (!hasFocus) {
+                    ((SearchView) v).setIconified(true);
+                    v.clearFocus();
+                }
             }
         });
         setSupportActionBar(toolbar);
@@ -114,14 +148,8 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
     private void initTopicFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-        if (fragment == null) {
-            fragment = new TopicFragment();
-            transaction.replace(R.id.fragment_container, fragment);
-        } else {
-            fragment = new TopicFragment();
-            transaction.add(R.id.fragment_container, fragment);
-        }
+        Fragment fragment = new TopicFragment();
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -156,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements LoadTopicCallback
 
     @Override
     public void onBackPressed() {
+        Log.d("", "onBackPressed: ");
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment != null){
